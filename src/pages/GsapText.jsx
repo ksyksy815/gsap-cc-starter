@@ -1,5 +1,30 @@
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
 const GsapText = () => {
   // TODO: Implement gsap text animation
+
+  useGSAP(() => {
+    gsap.to("#text", {
+      ease: "power1.inOut",
+      opacity: 1,
+      y: 0,
+    });
+
+    gsap.fromTo(
+      ".para",
+      {
+        opacity: 0,
+        y: 20,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        deplay: 1,
+        stagger: 0.4,
+      }
+    );
+  }, []);
 
   return (
     <main>
@@ -29,8 +54,7 @@ const GsapText = () => {
         <a
           href="https://greensock.com/docs/v3/Plugins/TextPlugin"
           target="_blank"
-          rel="noreferrer noopener nofollow"
-        >
+          rel="noreferrer noopener nofollow">
           TextPlugin
         </a>{" "}
         plugin.

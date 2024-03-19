@@ -1,8 +1,38 @@
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import { useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const GsapScrollTrigger = () => {
-  // TODO: Implement the gsap scroll trigger
+  const scrollRef = useRef(null);
+
+  useGSAP(
+    () => {
+      const boxes = gsap.utils.toArray(scrollRef.current.children);
+
+      boxes.forEach((box) => {
+        gsap.to(box, {
+          x: 150 * (boxes.indexOf(box) + 5),
+          rotation: 360,
+          borderRadius: "100%",
+          scale: 1.5,
+          scrollTrigger: {
+            trigger: box,
+            start: "bottom bottom", // 박스의 bottom이 뷰포트의 bottom에 닿으면 애니메이션 시작
+            end: "top 10%", // 박스의 top이 뷰포트의 상단에서 20% 떨어진 곳에 닿으면 애니메이션 종료.
+            scrub: true, // 에니메이션이 부드러워짐
+            ease: "power1.inOut",
+          },
+        });
+      });
+    },
+    { scope: scrollRef }
+  );
 
   return (
-    <main>
+    <main className={"pb-[1200px]"}>
       <h1>GsapScrollTrigger</h1>
 
       <p className="mt-5 text-gray-500">
@@ -22,8 +52,7 @@ const GsapScrollTrigger = () => {
         <a
           href="https://gsap.com/docs/v3/Plugins/ScrollTrigger/"
           target="_blank"
-          rel="noreferrer noopener nofollow"
-        >
+          rel="noreferrer noopener nofollow">
           gsap scroll trigger
         </a>{" "}
         method.
@@ -44,14 +73,13 @@ const GsapScrollTrigger = () => {
           stroke="blue"
           strokeWidth="2"
           strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+          strokeLinejoin="round">
           <path d="M12 19V5" />
           <path d="M5 12l7 7 7-7" />
         </svg>
       </div>
 
-      <div className="mt-20 w-full h-screen">
+      <di ref={scrollRef} className="mt-20 w-full h-screen">
         <div
           id="scroll-pink"
           className="scroll-box w-20 h-20 rounded-lg bg-pink-500"
@@ -60,7 +88,7 @@ const GsapScrollTrigger = () => {
           id="scroll-orange"
           className="scroll-box w-20 h-20 rounded-lg bg-orange-500"
         />
-      </div>
+      </di>
     </main>
   );
 };
